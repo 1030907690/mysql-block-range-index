@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: mysql-block-range-index-sample

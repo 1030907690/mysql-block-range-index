@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MysqlBlockRangeIndexApplication {
+public class MysqlBlockRangeIndexSampleApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MysqlBlockRangeIndexApplication.class, args);
+		SpringApplication.run(MysqlBlockRangeIndexSampleApplication.class, args);
 	}
 
 }

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MysqlBlockRangeIndexApplicationTests {
+class MysqlBlockRangeIndexSampleApplicationTests {
 
 	@Test
 	void contextLoads() {
