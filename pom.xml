@@ -19,6 +19,7 @@
 		<mybatis-plus.version>3.5.11</mybatis-plus.version>
 		<druid.version>1.2.27</druid.version>
 		<mysql.version>8.0.33</mysql.version>
+		<jsqlparser.version>4.7</jsqlparser.version>
 	</properties>
 
 	<dependencyManagement>
@@ -47,7 +48,7 @@
 			 <dependency>
 				<groupId>com.github.jsqlparser</groupId>
 				<artifactId>jsqlparser</artifactId>
-				<version>4.7</version>
+				<version>${jsqlparser.version}</version>
 			</dependency>
 
 
