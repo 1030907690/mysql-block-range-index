@@ -19,7 +19,7 @@ import java.util.List;
  * @date: 2/2/2026 10:27 PM
  */
 @Configuration
-//@ConditionalOnBean(SqlSessionFactory.class)
+@ConditionalOnBean(SqlSessionFactory.class)
 @EnableConfigurationProperties({MysqlBlockRangeIndexProperties.class})
 @AutoConfigureAfter(MybatisAutoConfiguration.class)
 public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
