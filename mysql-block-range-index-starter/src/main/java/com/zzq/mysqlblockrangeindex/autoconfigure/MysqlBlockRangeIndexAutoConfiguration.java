@@ -5,6 +5,8 @@ import com.zzq.mysqlblockrangeindex.interceptor.MysqlBlockRangeIndexInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -23,6 +25,7 @@ import java.util.List;
 @EnableConfigurationProperties({MysqlBlockRangeIndexProperties.class})
 @AutoConfigureAfter(MybatisAutoConfiguration.class)
 public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
+    private final Logger log = LoggerFactory.getLogger(MysqlBlockRangeIndexAutoConfiguration.class);
     private final List<SqlSessionFactory> sqlSessionFactoryList;
 //    private final MysqlBlockRangeIndexProperties properties;
 
@@ -40,6 +43,7 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
         for (SqlSessionFactory sqlSessionFactory : sqlSessionFactoryList) {
             org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
             if (!containsInterceptor(configuration, interceptor)) {
+                log.info("add interceptor: {}", interceptor.getClass().getName());
                 configuration.addInterceptor(interceptor);
             }
         }
