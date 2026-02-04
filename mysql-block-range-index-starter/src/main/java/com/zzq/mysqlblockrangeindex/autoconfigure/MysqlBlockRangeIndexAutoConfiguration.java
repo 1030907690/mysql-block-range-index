@@ -1,7 +1,6 @@
 package com.zzq.mysqlblockrangeindex.autoconfigure;
 
 
-import com.zzq.mysqlblockrangeindex.datasource.LocalDataSourceStore;
 import com.zzq.mysqlblockrangeindex.interceptor.MysqlBlockRangeIndexInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -11,12 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
+import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -25,9 +22,9 @@ import java.util.List;
  * @date: 2/2/2026 10:27 PM
  */
 @Configuration
-@ConditionalOnBean(SqlSessionFactory.class)
+@ConditionalOnBean({SqlSessionFactory.class})
 @EnableConfigurationProperties({MysqlBlockRangeIndexProperties.class})
-@AutoConfigureAfter(MybatisAutoConfiguration.class)
+@AutoConfigureAfter({MybatisAutoConfiguration.class, JdbcTemplateAutoConfiguration.class})
 public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
     private final Logger log = LoggerFactory.getLogger(MysqlBlockRangeIndexAutoConfiguration.class);
     private final List<SqlSessionFactory> sqlSessionFactoryList;
@@ -40,11 +37,7 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
 //        this.properties = properties;
     }
 
-    @Bean
-    @ConditionalOnSingleCandidate(DataSource.class)
-    public LocalDataSourceStore localDataSourceStore(DataSource dataSource) {
-        return new LocalDataSourceStore(dataSource);
-    }
+
 
 
     @Override
