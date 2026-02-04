@@ -2,6 +2,7 @@ package com.zzq.mysqlblockrangeindex.autoconfigure;
 
 
 import com.zzq.mysqlblockrangeindex.interceptor.MysqlBlockRangeIndexInterceptor;
+import com.zzq.mysqlblockrangeindex.job.BlockRangeIndexJob;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
@@ -10,9 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
@@ -24,7 +30,7 @@ import java.util.List;
 @Configuration
 @ConditionalOnBean({SqlSessionFactory.class})
 @EnableConfigurationProperties({MysqlBlockRangeIndexProperties.class})
-@AutoConfigureAfter({MybatisAutoConfiguration.class, JdbcTemplateAutoConfiguration.class})
+@AutoConfigureAfter({MybatisAutoConfiguration.class, JdbcTemplateAutoConfiguration.class, RedisAutoConfiguration.class})
 public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
     private final Logger log = LoggerFactory.getLogger(MysqlBlockRangeIndexAutoConfiguration.class);
     private final List<SqlSessionFactory> sqlSessionFactoryList;
@@ -37,7 +43,10 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
 //        this.properties = properties;
     }
 
-
+    @Bean
+    public BlockRangeIndexJob blockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate) {
+        return new BlockRangeIndexJob(jdbcTemplate, stringRedisTemplate);
+    }
 
 
     @Override
