@@ -1,6 +1,7 @@
 package com.zzq.mysqlblockrangeindex.autoconfigure;
 
 
+import com.zzq.mysqlblockrangeindex.datasource.LocalDataSourceStore;
 import com.zzq.mysqlblockrangeindex.interceptor.MysqlBlockRangeIndexInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,9 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -35,6 +39,13 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
         this.sqlSessionFactoryList = sqlSessionFactoryList;
 //        this.properties = properties;
     }
+
+    @Bean
+    @ConditionalOnSingleCandidate(DataSource.class)
+    public LocalDataSourceStore localDataSourceStore(DataSource dataSource) {
+        return new LocalDataSourceStore(dataSource);
+    }
+
 
     @Override
     public void afterPropertiesSet() throws Exception {
