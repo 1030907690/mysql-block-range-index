@@ -42,7 +42,7 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Interceptor interceptor = new MysqlBlockRangeIndexInterceptor();
+      /*  Interceptor interceptor = new MysqlBlockRangeIndexInterceptor();
         interceptor.setProperties(null);
         for (SqlSessionFactory sqlSessionFactory : sqlSessionFactoryList) {
             org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
@@ -50,7 +50,7 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
                 log.info("add interceptor: {}", interceptor.getClass().getName());
                 configuration.addInterceptor(interceptor);
             }
-        }
+        }*/
     }
 
     /**

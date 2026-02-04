@@ -1,5 +1,6 @@
 package com.zzq.mysqlblockrangeindex.sample.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.zzq.mysqlblockrangeindex.sample.model.User;
 import com.zzq.mysqlblockrangeindex.sample.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class UserController {
 
     @RequestMapping("/list")
     public List<User> list() {
+        PageHelper.startPage(1, 1);
         return userService.list();
     }
 
