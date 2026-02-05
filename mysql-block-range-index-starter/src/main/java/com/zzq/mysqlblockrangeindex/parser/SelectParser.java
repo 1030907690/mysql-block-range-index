@@ -4,6 +4,7 @@ package com.zzq.mysqlblockrangeindex.parser;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.extra.spring.SpringUtil;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
+import com.zzq.mysqlblockrangeindex.bean.Range;
 import com.zzq.mysqlblockrangeindex.constant.Constant;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.statement.select.Select;
@@ -123,26 +124,6 @@ public class SelectParser {
         return range;
     }
 
-    public static class Range {
-        private Integer minId;
-        private Integer maxId;
-
-        public Integer getMinId() {
-            return minId;
-        }
-
-        public void setMinId(Integer minId) {
-            this.minId = minId;
-        }
-
-        public Integer getMaxId() {
-            return maxId;
-        }
-
-        public void setMaxId(Integer maxId) {
-            this.maxId = maxId;
-        }
-    }
 
     private List<BasicEntity> convertBasicEntity(Map<Object, Object> entries) {
         if (!CollectionUtils.isEmpty(entries)) {

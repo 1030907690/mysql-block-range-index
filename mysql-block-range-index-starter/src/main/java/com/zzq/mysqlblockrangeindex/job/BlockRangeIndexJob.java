@@ -5,10 +5,10 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
+import com.zzq.mysqlblockrangeindex.bean.CreateTableDDL;
+import com.zzq.mysqlblockrangeindex.bean.Table;
 import com.zzq.mysqlblockrangeindex.constant.Constant;
-import net.sf.jsqlparser.JSQLParserException;
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
-import net.sf.jsqlparser.statement.create.table.CreateTable;
+import com.zzq.mysqlblockrangeindex.parser.CreateTableParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -33,6 +33,7 @@ public class BlockRangeIndexJob {
     private StringRedisTemplate stringRedisTemplate;
 
 
+    private final CreateTableParser createTableParser = new CreateTableParser();
 
 
     public BlockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate) {
@@ -96,95 +97,10 @@ public class BlockRangeIndexJob {
             return table;
         });
         log.info("tables: {}", tables);
-        return parseAutoIncrement(tables.stream().findFirst().get().getCreateTable());
-    }
-
-    public Integer parseAutoIncrement(String ddlSql) {
-        CreateTable createTable = null;
-        try {
-            createTable = (CreateTable) CCJSqlParserUtil.parse(ddlSql);
-        } catch (JSQLParserException e) {
-            throw new RuntimeException(e);
-        }
-        List<?> options = createTable.getTableOptionsStrings();
-
-        String autoIncrementValue = null;
-        if (options != null) {
-            for (int i = 0; i < options.size(); i++) {
-                String option = options.get(i).toString();
-                if ("AUTO_INCREMENT".equalsIgnoreCase(option) && i + 2 < options.size()) {
-                    // JSqlParser 通常把 "AUTO_INCREMENT", "=", "8" 拆成三个连续元素
-                    // 所以我们要跳过等号取后面的值
-                    autoIncrementValue = options.get(i + 2).toString();
-                    break;
-                }
-            }
-        }
-        return Integer.parseInt(autoIncrementValue);
+        return createTableParser.parseAutoIncrement(tables.stream().findFirst().get().getCreateTable());
     }
 
 
-    public static class Table {
 
-        /**
-         * 表名
-         */
-        private String name;
-        /**
-         * 主键自增列
-         */
-        private String primaryKeyAutoIncrementColumn;
-
-        /**
-         * 创建时间列
-         */
-        private String createTimeColumn;
-
-        public Table() {
-        }
-
-        public Table(String name,String primaryKeyAutoIncrementColumn, String createTimeColumn) {
-            this.name = name;
-            this.primaryKeyAutoIncrementColumn = primaryKeyAutoIncrementColumn;
-            this.createTimeColumn = createTimeColumn;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPrimaryKeyAutoIncrementColumn() {
-            return primaryKeyAutoIncrementColumn;
-        }
-
-        public void setPrimaryKeyAutoIncrementColumn(String primaryKeyAutoIncrementColumn) {
-            this.primaryKeyAutoIncrementColumn = primaryKeyAutoIncrementColumn;
-        }
-
-        public String getCreateTimeColumn() {
-            return createTimeColumn;
-        }
-
-        public void setCreateTimeColumn(String createTimeColumn) {
-            this.createTimeColumn = createTimeColumn;
-        }
-    }
-
-    public static class CreateTableDDL {
-
-        private String createTable;
-
-        public String getCreateTable() {
-            return createTable;
-        }
-
-        public void setCreateTable(String createTable) {
-            this.createTable = createTable;
-        }
-    }
 
 }
