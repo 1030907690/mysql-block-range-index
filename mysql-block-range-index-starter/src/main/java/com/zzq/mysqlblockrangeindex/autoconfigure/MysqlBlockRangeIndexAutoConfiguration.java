@@ -2,7 +2,6 @@ package com.zzq.mysqlblockrangeindex.autoconfigure;
 
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.zzq.mysqlblockrangeindex.interceptor.MysqlBlockRangeIndexInterceptor;
 import com.zzq.mysqlblockrangeindex.job.BlockRangeIndexJob;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -18,7 +17,6 @@ import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 
