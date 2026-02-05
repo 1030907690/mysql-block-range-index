@@ -1,6 +1,7 @@
 package com.zzq.mysqlblockrangeindex.bean;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -12,14 +13,14 @@ public class BasicEntity {
     public BasicEntity() {
     }
 
-    public BasicEntity(Integer id, Date createTime) {
+    public BasicEntity(Integer id, LocalDateTime createTime) {
         this.id = id;
         this.createTime = createTime;
     }
 
     private Integer id;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     public Integer getId() {
         return id;
@@ -29,11 +30,11 @@ public class BasicEntity {
         this.id = id;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

@@ -32,3 +32,11 @@ spring:
           max-idle: 10
           # 连接池中的最小空闲连接
           min-idle: 0
+
+logging:
+  level:
+    com.zzq.mysqlblockrangeindex.sample: debug
+
+pagehelper:
+  bound-sql-interceptors: com.zzq.mysqlblockrangeindex.sample.interceptor.PageHelperBoundSqlInterceptor
+

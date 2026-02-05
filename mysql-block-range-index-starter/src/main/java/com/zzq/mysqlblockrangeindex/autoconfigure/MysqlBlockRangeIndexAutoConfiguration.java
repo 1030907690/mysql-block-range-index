@@ -1,6 +1,7 @@
 package com.zzq.mysqlblockrangeindex.autoconfigure;
 
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.zzq.mysqlblockrangeindex.interceptor.MysqlBlockRangeIndexInterceptor;
 import com.zzq.mysqlblockrangeindex.job.BlockRangeIndexJob;
 import org.apache.ibatis.plugin.Interceptor;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -48,6 +50,11 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
         return new BlockRangeIndexJob(jdbcTemplate, stringRedisTemplate);
     }
 
+    @Bean
+    @ConditionalOnMissingBean(SpringUtil.class)
+    public SpringUtil springUtil() {
+        return new SpringUtil();
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
