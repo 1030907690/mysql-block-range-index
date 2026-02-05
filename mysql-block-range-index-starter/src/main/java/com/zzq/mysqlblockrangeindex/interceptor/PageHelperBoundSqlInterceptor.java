@@ -1,5 +1,4 @@
-package com.zzq.mysqlblockrangeindex.sample.interceptor;
-
+package com.zzq.mysqlblockrangeindex.interceptor;
 
 import com.github.pagehelper.BoundSqlInterceptor;
 import com.zzq.mysqlblockrangeindex.parser.SelectParser;
@@ -7,6 +6,7 @@ import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+
 
 /**
  * @author zzq

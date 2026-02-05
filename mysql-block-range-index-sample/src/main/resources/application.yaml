@@ -38,5 +38,5 @@ logging:
     com.zzq.mysqlblockrangeindex.sample: debug
 
 pagehelper:
-  bound-sql-interceptors: com.zzq.mysqlblockrangeindex.sample.interceptor.PageHelperBoundSqlInterceptor
+  bound-sql-interceptors: com.zzq.mysqlblockrangeindex.interceptor.PageHelperBoundSqlInterceptor
 
