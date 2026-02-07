@@ -6,6 +6,8 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
 import com.zzq.mysqlblockrangeindex.bean.Range;
 import com.zzq.mysqlblockrangeindex.constant.Constant;
+import com.zzq.mysqlblockrangeindex.index.BlockRangeIndex;
+import com.zzq.mysqlblockrangeindex.index.BlockRangeIndexHolder;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
@@ -46,11 +48,12 @@ public class SelectParser {
 
 
     public String appendPrimaryKeyAutoIncrementWhere(String originalSql) {
+        BlockRangeIndex blockRangeIndex = BlockRangeIndexHolder.get();
+//        Range range = deduceRange("t_user", LocalDateTime.parse("2026-02-05 11:33:17", DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)),
+//                LocalDateTime.parse("2026-02-05 14:34:15", DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+        Range range = deduceRange(blockRangeIndex.getTableName(), blockRangeIndex.getStartTime(), blockRangeIndex.getEndTime());
 
-        Range range = deduceRange("t_user", LocalDateTime.parse("2025-12-03 01:00:01", DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)),
-                LocalDateTime.parse("2026-01-01 23:59:59", DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
 
-        ;
         Select select = null;
         try {
             select = (Select) CCJSqlParserUtil.parse(originalSql);
@@ -105,16 +108,25 @@ public class SelectParser {
     private Range matchRange(List<BasicEntity> basicEntities, LocalDateTime startTime, LocalDateTime endTime) {
         Range range = new Range();
         if (!CollectionUtils.isEmpty(basicEntities)) {
-            // 大于等于开始时间
-            for (BasicEntity basicEntity : basicEntities) {
+            for (int i = 0; i < basicEntities.size(); i++) {
+                BasicEntity basicEntity = basicEntities.get(i);
+                // 开始时间是basicEntity.getCreateTime() 之前的时间 或者等于
                 if (!ObjectUtils.isEmpty(startTime) && (startTime.isBefore(basicEntity.getCreateTime()) || startTime.isEqual(basicEntity.getCreateTime()))) {
-                    range.setMinId(basicEntity.getId());
+                    // 最终最小id前移一位
+                    if (i > 0) {
+                        BasicEntity prevBasicEntity = basicEntities.get(i - 1);
+                        range.setMinId(prevBasicEntity.getId());
+                    } else {
+                        range.setMinId(0);
+                    }
                     break;
                 }
+
             }
 
-            // 小于等于结束时间
+
             for (BasicEntity basicEntity : basicEntities) {
+                //   结束时间是basicEntity.getCreateTime() 之前的时间 或者等于
                 if (!ObjectUtils.isEmpty(endTime) && (endTime.isBefore(basicEntity.getCreateTime()) || endTime.isEqual(basicEntity.getCreateTime()))) {
                     range.setMaxId(basicEntity.getId());
                     break;

@@ -1,6 +1,9 @@
 package com.zzq.mysqlblockrangeindex.sample.controller;
 
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.PageHelper;
+import com.zzq.mysqlblockrangeindex.index.IndexHelper;
 import com.zzq.mysqlblockrangeindex.sample.model.User;
 import com.zzq.mysqlblockrangeindex.sample.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,8 +30,13 @@ public class UserController {
 
     @RequestMapping("/list")
     public List<User> list() {
-        PageHelper.startPage(1, 1);
-        return userService.list();
+        //LocalDateTime 转 Date
+        LocalDateTime startTime = LocalDateTime.now().minusDays(35);
+        LocalDateTime endTime = startTime.plusDays(1);
+        IndexHelper.startDateRangeIndex("t_user", "t_user", startTime, endTime);
+        PageHelper.startPage(1, 100);
+
+        return userService.list(Wrappers.lambdaQuery(User.class).gt(User::getCreateTime, startTime).lt(User::getCreateTime, endTime));
     }
 
 }

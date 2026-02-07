@@ -12,12 +12,15 @@ public class BlockRangeIndex {
     public BlockRangeIndex() {
     }
 
-    public BlockRangeIndex(String tableName, LocalDateTime startTime, LocalDateTime endTime) {
+    public BlockRangeIndex(String tableName, String tableAlias, LocalDateTime startTime, LocalDateTime endTime) {
         this.tableName = tableName;
+        this.tableAlias = tableAlias;
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
     private String tableName;
+    private String tableAlias;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
@@ -27,6 +30,14 @@ public class BlockRangeIndex {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
+    }
+
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
     }
 
     public LocalDateTime getStartTime() {
