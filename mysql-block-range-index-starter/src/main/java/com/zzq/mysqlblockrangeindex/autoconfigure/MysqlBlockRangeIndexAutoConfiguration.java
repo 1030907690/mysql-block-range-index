@@ -2,7 +2,7 @@ package com.zzq.mysqlblockrangeindex.autoconfigure;
 
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.zzq.mysqlblockrangeindex.job.BlockRangeIndexJob;
+import com.zzq.mysqlblockrangeindex.job.DateBlockRangeIndexJob;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
@@ -44,8 +44,8 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
     }
 
     @Bean
-    public BlockRangeIndexJob blockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate) {
-        return new BlockRangeIndexJob(jdbcTemplate, stringRedisTemplate);
+    public DateBlockRangeIndexJob blockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate) {
+        return new DateBlockRangeIndexJob(jdbcTemplate, stringRedisTemplate);
     }
 
     @Bean

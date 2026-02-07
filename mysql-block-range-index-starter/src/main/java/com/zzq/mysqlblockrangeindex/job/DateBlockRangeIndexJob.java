@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
  * @author: Zhou Zhongqing
  * @date: 2/4/2026 9:39 PM
  */
-public class BlockRangeIndexJob {
+public class DateBlockRangeIndexJob {
 
-    private final List<Table> TABLES = Arrays.asList(new Table("t_user","id","create_time"));
-    private final Logger log = LoggerFactory.getLogger(BlockRangeIndexJob.class);
+    private final List<Table> TABLES = Arrays.asList(new Table("t_user", "id", "create_time"));
+    private final Logger log = LoggerFactory.getLogger(DateBlockRangeIndexJob.class);
 
     private JdbcTemplate jdbcTemplate;
 
@@ -36,23 +36,23 @@ public class BlockRangeIndexJob {
     private final CreateTableParser createTableParser = new CreateTableParser();
 
 
-    public BlockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate) {
+    public DateBlockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
-    public void execute() {
-        for (Table table : TABLES) {
-            String tableName = table.getName();
-            Integer autoIncrement = getTableAutoIncrement(tableName);
-            log.info("tableName: {}, autoIncrement: {}", tableName, autoIncrement);
+    public void execute(Table table) {
 
-            Integer minId = getLastSegmentId(tableName);
-            log.info("tableName {} minId {} ", tableName, minId);
-            List<BasicEntity> tableData = getTableData(table, minId, autoIncrement);
-            log.info("tableData: {}", tableData);
-            saveRedis(table,tableDataMonthGroup(tableData));
-        }
+        String tableName = table.getName();
+        Integer autoIncrement = getTableAutoIncrement(tableName);
+        log.info("tableName: {}, autoIncrement: {}", tableName, autoIncrement);
+
+        Integer minId = getLastSegmentId(tableName);
+        log.info("tableName {} minId {} ", tableName, minId);
+        List<BasicEntity> tableData = getTableData(table, minId, autoIncrement);
+        log.info("tableData: {}", tableData);
+        saveRedis(table, tableDataMonthGroup(tableData));
+
     }
 
     public void saveRedis(Table table, Map<String, List<BasicEntity>> group) {
@@ -62,7 +62,8 @@ public class BlockRangeIndexJob {
             stringRedisTemplate.opsForHash().put(Constant.MYSQL_BLOCK_RANGE_INDEX + table.getName(), DateUtil.format(maxBasicEntity.getCreateTime(), DatePattern.PURE_DATETIME_PATTERN), maxBasicEntity.getId().toString());
         });
     }
-    private  Map<String, List<BasicEntity>> tableDataMonthGroup(List<BasicEntity> tableData) {
+
+    private Map<String, List<BasicEntity>> tableDataMonthGroup(List<BasicEntity> tableData) {
         if (!CollectionUtils.isEmpty(tableData)) {
             // 数据按年月分组
             return tableData.stream().collect(Collectors.groupingBy(basicEntity -> DateUtil.format(basicEntity.getCreateTime(), "yyyy-MM")));
@@ -99,8 +100,6 @@ public class BlockRangeIndexJob {
         log.info("tables: {}", tables);
         return createTableParser.parseAutoIncrement(tables.stream().findFirst().get().getCreateTable());
     }
-
-
 
 
 }

@@ -1,6 +1,10 @@
 package com.zzq.mysqlblockrangeindex.bean;
 
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.zzq.mysqlblockrangeindex.constant.Constant;
+import org.springframework.util.Assert;
+
 /**
  * @description:
  * @author: Zhou Zhongqing
@@ -11,9 +15,21 @@ public class Table {
     }
 
     public Table(String name,String primaryKeyAutoIncrementColumn, String createTimeColumn) {
+        Assert.notNull(name, "name can not be null");
+        Assert.notNull(primaryKeyAutoIncrementColumn, "primaryKeyAutoIncrementColumn can not be null");
+        Assert.notNull(createTimeColumn, "createTimeColumn can not be null");
+
         this.name = name;
         this.primaryKeyAutoIncrementColumn = primaryKeyAutoIncrementColumn;
         this.createTimeColumn = createTimeColumn;
+    }
+
+    public Table(String name) {
+        this(name, Constant.DEFAULT_PRIMARY_KEY_AUTO_INCREMENT_COLUMN, Constant.DEFAULT_CREATE_TIME_COLUMN);
+    }
+
+    public Table(Class<?> entityClz) {
+        this(entityClz.getAnnotation(TableName.class).value(), Constant.DEFAULT_PRIMARY_KEY_AUTO_INCREMENT_COLUMN, Constant.DEFAULT_CREATE_TIME_COLUMN);
     }
 
     /**

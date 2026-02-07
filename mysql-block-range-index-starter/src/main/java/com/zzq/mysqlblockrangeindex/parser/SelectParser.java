@@ -2,6 +2,7 @@ package com.zzq.mysqlblockrangeindex.parser;
 
 
 import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
 import com.zzq.mysqlblockrangeindex.bean.Range;
@@ -64,14 +65,14 @@ public class SelectParser {
         Expression where = plainSelect.getWhere();
         if (where == null) {
             try {
-                plainSelect.setWhere(CCJSqlParserUtil.parseCondExpression(assemblyRangeWhere(range)));
+                plainSelect.setWhere(CCJSqlParserUtil.parseCondExpression(assemblyRangeWhere(range,blockRangeIndex)));
             } catch (JSQLParserException e) {
                 throw new RuntimeException(e);
             }
         } else {
             AndExpression and = null;
             try {
-                and = new AndExpression(where, CCJSqlParserUtil.parseCondExpression(assemblyRangeWhere(range)));
+                and = new AndExpression(where, CCJSqlParserUtil.parseCondExpression(assemblyRangeWhere(range,blockRangeIndex)));
             } catch (JSQLParserException e) {
                 throw new RuntimeException(e);
             }
@@ -83,16 +84,17 @@ public class SelectParser {
         return plainSelect.toString();
     }
 
-    private String assemblyRangeWhere(Range range) {
+    private String assemblyRangeWhere(Range range,BlockRangeIndex blockRangeIndex) {
+        String tableAliasDot = ObjectUtils.isEmpty(blockRangeIndex.getTableAlias()) ? StrUtil.EMPTY : blockRangeIndex.getTableAlias() + StrUtil.DOT;
         StringBuilder rangeWhere = new StringBuilder();
-        if (range.getMinId() != null){
-            rangeWhere.append("id >= ").append(range.getMinId());
+        if (range.getMinId() != null) {
+            rangeWhere.append(tableAliasDot + "id >= ").append(range.getMinId());
         }
-        if (range.getMaxId() != null){
+        if (range.getMaxId() != null) {
             if (rangeWhere.length() > 0) {
-                rangeWhere.append(" and id <= ").append(range.getMaxId());
+                rangeWhere.append(" and " + tableAliasDot + "id <= ").append(range.getMaxId());
             } else {
-                rangeWhere.append("id <= ").append(range.getMaxId());
+                rangeWhere.append(tableAliasDot + "id <= ").append(range.getMaxId());
             }
         }
         return rangeWhere.toString();

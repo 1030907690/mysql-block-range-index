@@ -31,11 +31,10 @@ public class UserController {
     @RequestMapping("/list")
     public List<User> list() {
         //LocalDateTime 转 Date
-        LocalDateTime startTime = LocalDateTime.now().minusDays(35);
-        LocalDateTime endTime = startTime.plusDays(1);
-        IndexHelper.startDateRangeIndex("t_user", "t_user", startTime, endTime);
+        LocalDateTime endTime = LocalDateTime.now().plusDays(1);
+        LocalDateTime startTime = endTime.minusDays(35);
+        IndexHelper.startDateRangeIndex(User.class, startTime, endTime);
         PageHelper.startPage(1, 100);
-
         return userService.list(Wrappers.lambdaQuery(User.class).gt(User::getCreateTime, startTime).lt(User::getCreateTime, endTime));
     }
 
