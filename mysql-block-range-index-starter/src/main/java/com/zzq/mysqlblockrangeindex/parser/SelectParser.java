@@ -76,7 +76,7 @@ public class SelectParser {
             } catch (JSQLParserException e) {
                 throw new RuntimeException(e);
             }
-            log.info("{} ", where);
+//            log.info("{} ", where);
             plainSelect.setWhere(and);
         }
 //        log.info("{} ", plainSelect.getWhere());

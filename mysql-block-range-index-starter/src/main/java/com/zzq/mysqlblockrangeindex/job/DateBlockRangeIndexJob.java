@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
  */
 public class DateBlockRangeIndexJob {
 
-    private final List<Table> TABLES = Arrays.asList(new Table("t_user", "id", "create_time"));
     private final Logger log = LoggerFactory.getLogger(DateBlockRangeIndexJob.class);
 
     private JdbcTemplate jdbcTemplate;

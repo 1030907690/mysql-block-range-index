@@ -16,4 +16,11 @@ public class CreateTableDDL {
     public void setCreateTable(String createTable) {
         this.createTable = createTable;
     }
+
+    @Override
+    public String toString() {
+        return "CreateTableDDL{" +
+                "createTable='" + createTable + '\'' +
+                '}';
+    }
 }

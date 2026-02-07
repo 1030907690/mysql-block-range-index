@@ -22,6 +22,7 @@ import java.util.Properties;
                 @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
         }
 )
+@Deprecated
 public class BlockRangeIndexInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
