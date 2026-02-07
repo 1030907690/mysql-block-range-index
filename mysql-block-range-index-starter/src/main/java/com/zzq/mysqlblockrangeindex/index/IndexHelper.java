@@ -2,6 +2,7 @@ package com.zzq.mysqlblockrangeindex.index;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +14,9 @@ import java.time.LocalDateTime;
 public class IndexHelper {
 
     public static void startDateRangeIndex(String tableName, String tableAlias, LocalDateTime startTime, LocalDateTime endTime) {
+        if (ObjectUtils.isEmpty(startTime) && ObjectUtils.isEmpty(endTime)) {
+            return;
+        }
         BlockRangeIndex index = new BlockRangeIndex(tableName, tableAlias, startTime, endTime);
         BlockRangeIndexHolder.set(index);
     }
