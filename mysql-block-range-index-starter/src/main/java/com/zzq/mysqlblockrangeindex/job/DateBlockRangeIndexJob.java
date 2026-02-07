@@ -48,9 +48,9 @@ public class DateBlockRangeIndexJob {
 
         Integer minId = getLastSegmentId(tableName);
         log.info("tableName {} minId {} ", tableName, minId);
-        List<BasicEntity> tableData = getTableData(table, minId, autoIncrement);
-        log.info("tableData: {}", tableData);
-        saveRedis(table, tableDataMonthGroup(tableData));
+        List<BasicEntity> tableDatas = getTableData(table, minId, autoIncrement);
+        log.info("tableDatas: {}", tableDatas);
+        saveRedis(table, tableDataMonthGroup(tableDatas));
 
     }
 
@@ -62,10 +62,10 @@ public class DateBlockRangeIndexJob {
         });
     }
 
-    private Map<String, List<BasicEntity>> tableDataMonthGroup(List<BasicEntity> tableData) {
-        if (!CollectionUtils.isEmpty(tableData)) {
+    private Map<String, List<BasicEntity>> tableDataMonthGroup(List<BasicEntity> tableDatas) {
+        if (!CollectionUtils.isEmpty(tableDatas)) {
             // 数据按年月分组
-            return tableData.stream().collect(Collectors.groupingBy(basicEntity -> DateUtil.format(basicEntity.getCreateTime(), "yyyy-MM")));
+            return tableDatas.stream().collect(Collectors.groupingBy(basicEntity -> DateUtil.format(basicEntity.getCreateTime(), "yyyy-MM")));
         }
         return Collections.emptyMap();
     }
