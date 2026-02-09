@@ -1,8 +1,8 @@
 package com.zzq.mysqlblockrangeindex.autoconfigure;
 
 
-import cn.hutool.extra.spring.SpringUtil;
 import com.zzq.mysqlblockrangeindex.job.DateBlockRangeIndexJob;
+import com.zzq.mysqlblockrangeindex.utils.BlockRangeIndexSpringUtil;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,6 +23,7 @@ import java.util.List;
 
 /**
  * 自动装配
+ *
  * @author Zhou Zhongqing
  * @since 2/2/2026 10:27 PM
  */
@@ -49,9 +49,8 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
     }
 
     @Bean
-    @ConditionalOnMissingBean(SpringUtil.class)
-    public SpringUtil springUtil() {
-        return new SpringUtil();
+    public BlockRangeIndexSpringUtil blockRangeIndexSpringUtil() {
+        return new BlockRangeIndexSpringUtil();
     }
 
     @Override

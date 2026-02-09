@@ -3,12 +3,12 @@ package com.zzq.mysqlblockrangeindex.parser;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
 import com.zzq.mysqlblockrangeindex.bean.Range;
 import com.zzq.mysqlblockrangeindex.constant.Constant;
 import com.zzq.mysqlblockrangeindex.index.BlockRangeIndex;
 import com.zzq.mysqlblockrangeindex.index.BlockRangeIndexHolder;
+import com.zzq.mysqlblockrangeindex.utils.BlockRangeIndexSpringUtil;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
@@ -101,7 +101,7 @@ public class SelectParser {
     }
 
     public Range deduceRange(String tableName, LocalDateTime startTime, LocalDateTime endTime) {
-        StringRedisTemplate stringRedisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
+        StringRedisTemplate stringRedisTemplate = BlockRangeIndexSpringUtil.getBean(StringRedisTemplate.class);
         Map<Object, Object> entries = stringRedisTemplate.opsForHash().entries(Constant.MYSQL_BLOCK_RANGE_INDEX + tableName);
         List<BasicEntity> basicEntities = convertBasicEntity(entries);
         return matchRange(basicEntities, startTime, endTime);
