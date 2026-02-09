@@ -1,6 +1,7 @@
 package com.zzq.mysqlblockrangeindex.constant;
 
 /**
+ * 常量
  * @author zzq
  * @date 2026/02/05 18:01:53
  */

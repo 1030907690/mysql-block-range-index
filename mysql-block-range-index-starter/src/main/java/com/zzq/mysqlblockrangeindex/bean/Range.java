@@ -2,7 +2,7 @@ package com.zzq.mysqlblockrangeindex.bean;
 
 
 /**
- *
+ * 范围
  * @author: Zhou Zhongqing
  * @date: 2/5/2026 10:36 PM
  */

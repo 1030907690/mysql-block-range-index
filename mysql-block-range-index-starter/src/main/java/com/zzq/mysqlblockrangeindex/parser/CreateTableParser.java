@@ -8,7 +8,7 @@ import net.sf.jsqlparser.statement.create.table.CreateTable;
 import java.util.List;
 
 /**
- *
+ * 创建表解析
  * @author: Zhou Zhongqing
  * @date: 2/5/2026 10:37 PM
  */

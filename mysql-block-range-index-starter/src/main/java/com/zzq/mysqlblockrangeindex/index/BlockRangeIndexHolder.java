@@ -1,10 +1,8 @@
 package com.zzq.mysqlblockrangeindex.index;
 
 
-import com.github.pagehelper.Page;
-
 /**
- *
+ * ThreadLocal 存储
  * @author: Zhou Zhongqing
  * @date: 2/5/2026 10:47 PM
  */

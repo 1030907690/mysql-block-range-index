@@ -23,7 +23,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 
 /**
- *
+ * 自动装配
  * @author: Zhou Zhongqing
  * @date: 2/2/2026 10:27 PM
  */
