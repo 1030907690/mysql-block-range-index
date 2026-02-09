@@ -5,13 +5,13 @@
     <parent>
         <artifactId>mysql-block-range-index</artifactId>
         <groupId>com.zzq.mysqlblockrangeindex</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zzq.mysqlblockrangeindex</groupId>
     <artifactId>mysql-block-range-index-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>mysql-block-range-index-starter</name>
     <description>mysql-block-range-index-starter</description>
     <packaging>jar</packaging>

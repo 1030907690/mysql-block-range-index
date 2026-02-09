@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.zzq.mysqlblockrangeindex</groupId>
 	<artifactId>mysql-block-range-index</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${revision}</version>
 	<name>mysql-block-range-index</name>
 	<packaging>pom</packaging>
 	<description>Demo project for Spring Boot</description>
@@ -23,6 +23,7 @@
 		<jsqlparser.version>4.7</jsqlparser.version>
 		<pagehelper.version>2.1.1</pagehelper.version>
 		<hutool.version>5.4.3</hutool.version>
+		<revision>1.0.0</revision>
 	</properties>
 
 	<dependencyManagement>
@@ -89,7 +90,7 @@
 			<dependency>
 				<groupId>com.zzq.mysqlblockrangeindex</groupId>
 				<artifactId>mysql-block-range-index-starter</artifactId>
-				<version>${project.version}</version>
+				<version>${revision}</version>
 			</dependency>
 
 			<!-- 分页插件 -->
