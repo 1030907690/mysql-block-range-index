@@ -4,7 +4,7 @@ package com.zzq.mysqlblockrangeindex.bean;
 /**
  * 建表语句
  * @author Zhou Zhongqing
- * @date: 2/5/2026 10:38 PM
+ * @date 2/5/2026 10:38 PM
  */
 public class CreateTableDDL {
     private String createTable;
