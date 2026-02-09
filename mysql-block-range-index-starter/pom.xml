@@ -4,12 +4,11 @@
 
     <parent>
         <artifactId>mysql-block-range-index</artifactId>
-        <groupId>com.zzq.mysqlblockrangeindex</groupId>
+        <groupId>io.github.1030907690</groupId>
         <version>${revision}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.zzq.mysqlblockrangeindex</groupId>
     <artifactId>mysql-block-range-index-starter</artifactId>
     <version>${revision}</version>
     <name>mysql-block-range-index-starter</name>
