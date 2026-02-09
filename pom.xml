@@ -48,7 +48,7 @@
 		<jsqlparser.version>4.7</jsqlparser.version>
 		<pagehelper.version>2.1.1</pagehelper.version>
 		<hutool.version>5.4.3</hutool.version>
-		<revision>1.0.0</revision>
+		<revision>1.0.1</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
