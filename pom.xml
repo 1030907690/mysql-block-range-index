@@ -6,8 +6,10 @@
 	<artifactId>mysql-block-range-index</artifactId>
 	<version>${revision}</version>
 	<name>mysql-block-range-index</name>
+	<url>https://github.com/1030907690/mysql-block-range-index</url>
+	<description>mysql-block-range-index</description>
+
 	<packaging>pom</packaging>
-	<description>Demo project for Spring Boot</description>
 
 	<modules>
 		<module>mysql-block-range-index-sample</module>
@@ -25,6 +27,7 @@
 		<hutool.version>5.4.3</hutool.version>
 		<revision>1.0.0</revision>
 	</properties>
+
 
 	<dependencyManagement>
 		<dependencies>

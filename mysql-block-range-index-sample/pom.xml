@@ -13,7 +13,7 @@
     <artifactId>mysql-block-range-index-sample</artifactId>
     <version>${revision}</version>
     <name>mysql-block-range-index-sample</name>
-    <description>Demo project for Spring Boot</description>
+    <description>mysql-block-range-index-sample</description>
     <packaging>jar</packaging>
 
     <dependencies>
