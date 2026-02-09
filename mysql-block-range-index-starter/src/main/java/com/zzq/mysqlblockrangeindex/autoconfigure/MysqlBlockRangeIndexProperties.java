@@ -4,7 +4,7 @@ package com.zzq.mysqlblockrangeindex.autoconfigure;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @description:
+ *
  * @author: Zhou Zhongqing
  * @date: 2/2/2026 10:29 PM
  */

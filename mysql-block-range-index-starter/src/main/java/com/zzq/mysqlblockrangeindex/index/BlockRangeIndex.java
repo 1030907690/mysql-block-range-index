@@ -4,7 +4,7 @@ package com.zzq.mysqlblockrangeindex.index;
 import java.time.LocalDateTime;
 
 /**
- * @description:
+ *
  * @author: Zhou Zhongqing
  * @date: 2/5/2026 10:49 PM
  */

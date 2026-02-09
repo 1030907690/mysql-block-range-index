@@ -12,7 +12,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.Properties;
 
 /**
- * @description:
+ *
  * @author: Zhou Zhongqing
  * @date: 2/2/2026 10:44 PM
  */

@@ -4,7 +4,7 @@ package com.zzq.mysqlblockrangeindex.index;
 import com.github.pagehelper.Page;
 
 /**
- * @description:
+ *
  * @author: Zhou Zhongqing
  * @date: 2/5/2026 10:47 PM
  */

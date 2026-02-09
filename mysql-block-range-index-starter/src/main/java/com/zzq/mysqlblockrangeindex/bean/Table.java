@@ -6,7 +6,7 @@ import com.zzq.mysqlblockrangeindex.constant.Constant;
 import org.springframework.util.Assert;
 
 /**
- * @description:
+ *
  * @author: Zhou Zhongqing
  * @date: 2/4/2026 10:15 PM
  */
