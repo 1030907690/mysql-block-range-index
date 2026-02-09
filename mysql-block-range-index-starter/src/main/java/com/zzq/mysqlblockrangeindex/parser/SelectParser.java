@@ -5,9 +5,11 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.StrUtil;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
 import com.zzq.mysqlblockrangeindex.bean.Range;
+import com.zzq.mysqlblockrangeindex.bean.Table;
 import com.zzq.mysqlblockrangeindex.constant.Constant;
 import com.zzq.mysqlblockrangeindex.index.BlockRangeIndex;
 import com.zzq.mysqlblockrangeindex.index.BlockRangeIndexHolder;
+import com.zzq.mysqlblockrangeindex.index.TableNameColumnMapping;
 import com.zzq.mysqlblockrangeindex.utils.BlockRangeIndexSpringUtil;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.statement.select.Select;
@@ -18,6 +20,7 @@ import net.sf.jsqlparser.expression.Expression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
@@ -86,15 +89,19 @@ public class SelectParser {
 
     private String assemblyRangeWhere(Range range,BlockRangeIndex blockRangeIndex) {
         String tableAliasDot = ObjectUtils.isEmpty(blockRangeIndex.getTableAlias()) ? StrUtil.EMPTY : blockRangeIndex.getTableAlias() + StrUtil.DOT;
+
+        Table table = TableNameColumnMapping.get(blockRangeIndex.getTableName());
+        Assert.notNull(table, blockRangeIndex.getTableName() + "table not mapping");
+        String primaryKeyAutoIncrementColumn = table.getPrimaryKeyAutoIncrementColumn();
         StringBuilder rangeWhere = new StringBuilder();
         if (range.getMinId() != null) {
-            rangeWhere.append(tableAliasDot + "id >= ").append(range.getMinId());
+            rangeWhere.append(tableAliasDot + primaryKeyAutoIncrementColumn +" >= ").append(range.getMinId());
         }
         if (range.getMaxId() != null) {
             if (rangeWhere.length() > 0) {
-                rangeWhere.append(" and " + tableAliasDot + "id <= ").append(range.getMaxId());
+                rangeWhere.append(" and " + tableAliasDot + primaryKeyAutoIncrementColumn + " <= ").append(range.getMaxId());
             } else {
-                rangeWhere.append(tableAliasDot + "id <= ").append(range.getMaxId());
+                rangeWhere.append(tableAliasDot + primaryKeyAutoIncrementColumn + " <= ").append(range.getMaxId());
             }
         }
         return rangeWhere.toString();

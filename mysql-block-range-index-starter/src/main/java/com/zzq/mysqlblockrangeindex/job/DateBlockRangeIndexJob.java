@@ -8,6 +8,7 @@ import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
 import com.zzq.mysqlblockrangeindex.bean.CreateTableDDL;
 import com.zzq.mysqlblockrangeindex.bean.Table;
 import com.zzq.mysqlblockrangeindex.constant.Constant;
+import com.zzq.mysqlblockrangeindex.index.TableNameColumnMapping;
 import com.zzq.mysqlblockrangeindex.parser.CreateTableParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class DateBlockRangeIndexJob {
     }
 
     public void execute(Table table) {
-
+        TableNameColumnMapping.add(table.getName(), table);
         String tableName = table.getName();
         Integer autoIncrement = getTableAutoIncrement(tableName);
         log.info("tableName: {}, autoIncrement: {}", tableName, autoIncrement);
@@ -51,9 +52,15 @@ public class DateBlockRangeIndexJob {
         List<BasicEntity> tableDatas = getTableData(table, minId, autoIncrement);
         log.info("tableDatas: {}", tableDatas);
         saveRedis(table, tableDataMonthGroup(tableDatas));
+        prune(table);
+    }
+    /**
+     * 删除过期数据,同一个月可能有重复数据
+     * @param table
+     */
+    private void prune(Table table) {
 
     }
-
     public void saveRedis(Table table, Map<String, List<BasicEntity>> group) {
         group.forEach((yearMonth, basicEntitys) -> {
             BasicEntity maxBasicEntity = basicEntitys.stream().max(Comparator.comparingInt(BasicEntity::getId)).get();
