@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * 自动装配
  * @author Zhou Zhongqing
- @since 2/2/2026 10:27 PM
+ * @since 2/2/2026 10:27 PM
  */
 @Configuration
 @ConditionalOnBean({SqlSessionFactory.class})

@@ -3,7 +3,7 @@ package com.zzq.mysqlblockrangeindex.constant;
 /**
  * 常量
  * @author zzq
- @since 2026/02/05 18:01:53
+ * @since 2026/02/05 18:01:53
  */
 public class Constant {
 

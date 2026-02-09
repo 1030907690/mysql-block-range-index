@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * 查询语句解析
  * @author Zhou Zhongqing
- @since 2/2/2026 11:00 PM
+ * @since 2/2/2026 11:00 PM
  */
 public class SelectParser {
 

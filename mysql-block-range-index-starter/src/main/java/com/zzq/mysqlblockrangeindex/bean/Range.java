@@ -4,7 +4,7 @@ package com.zzq.mysqlblockrangeindex.bean;
 /**
  * 范围
  * @author Zhou Zhongqing
- @since 2/5/2026 10:36 PM
+ * @since 2/5/2026 10:36 PM
  */
 public class Range {
     private Integer minId;
