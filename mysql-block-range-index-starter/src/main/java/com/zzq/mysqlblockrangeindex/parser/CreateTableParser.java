@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 创建表解析
  * @author Zhou Zhongqing
- * @date 2/5/2026 10:37 PM
+ @since 2/5/2026 10:37 PM
  */
 public class CreateTableParser {
     public Integer parseAutoIncrement(String ddlSql) {

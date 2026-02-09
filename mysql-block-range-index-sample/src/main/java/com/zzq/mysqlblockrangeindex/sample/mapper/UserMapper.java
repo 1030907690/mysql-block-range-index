@@ -5,7 +5,7 @@ import com.zzq.mysqlblockrangeindex.sample.model.User;
 
 /**
  * @author zzq
- * @date 2026/02/03 18:36:53
+ @since 2026/02/03 18:36:53
  */
 public interface UserMapper extends BaseMapper<User> {
 

@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 /**
  * 表
  * @author Zhou Zhongqing
- * @date 2/4/2026 10:15 PM
+ @since 2/4/2026 10:15 PM
  */
 public class Table {
     public Table() {

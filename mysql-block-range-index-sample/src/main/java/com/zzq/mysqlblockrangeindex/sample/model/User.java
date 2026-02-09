@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * @author zzq
- * @date 2026/02/03 18:34:48
+ @since 2026/02/03 18:34:48
  */
 @TableName("t_user")
 public class User {
