@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 属性配置
- * @author: Zhou Zhongqing
+ * @author Zhou Zhongqing
  * @date: 2/2/2026 10:29 PM
  */
 @ConfigurationProperties(prefix = MysqlBlockRangeIndexProperties.MYSQL_BLOCK_RANGE_INDEX_PREFIX)

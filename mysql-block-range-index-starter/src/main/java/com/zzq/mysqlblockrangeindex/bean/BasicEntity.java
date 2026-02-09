@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * 基础实体类
- * @author: Zhou Zhongqing
+ * @author Zhou Zhongqing
  * @date: 2/4/2026 10:21 PM
  */
 public class BasicEntity {

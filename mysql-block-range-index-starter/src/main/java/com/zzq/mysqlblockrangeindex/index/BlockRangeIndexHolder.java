@@ -3,7 +3,7 @@ package com.zzq.mysqlblockrangeindex.index;
 
 /**
  * ThreadLocal 存储
- * @author: Zhou Zhongqing
+ * @author Zhou Zhongqing
  * @date: 2/5/2026 10:47 PM
  */
 public class BlockRangeIndexHolder {

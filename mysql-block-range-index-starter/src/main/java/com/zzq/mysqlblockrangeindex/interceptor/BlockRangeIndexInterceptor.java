@@ -13,7 +13,7 @@ import java.util.Properties;
 
 /**
  * 拦截器
- * @author: Zhou Zhongqing
+ * @author Zhou Zhongqing
  * @date: 2/2/2026 10:44 PM
  */
 @Intercepts(
