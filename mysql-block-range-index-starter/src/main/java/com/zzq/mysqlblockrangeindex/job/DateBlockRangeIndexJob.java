@@ -66,10 +66,12 @@ public class DateBlockRangeIndexJob {
         prune(table);
     }
     /**
-     * 删除过期数据,同一个月可能有重复数据
+     * 删除过期数据,多次启动该任务，同一个月可能有重复数据
      * @param table
      */
     private void prune(Table table) {
+        Map<Object, Object> entries = stringRedisTemplate.opsForHash().entries(Constant.MYSQL_BLOCK_RANGE_INDEX + table.getName());
+
 
     }
     public void saveRedis(Table table, Map<String, List<BasicEntity>> group) {
