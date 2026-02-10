@@ -3,7 +3,6 @@ package com.zzq.mysqlblockrangeindex.parser;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.zzq.mysqlblockrangeindex.autoconfigure.MysqlBlockRangeIndexProperties;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
 import com.zzq.mysqlblockrangeindex.bean.Range;
@@ -92,7 +91,7 @@ public class SelectParser {
     private String assemblyRangeWhere(Range range,BlockRangeIndex blockRangeIndex) {
         String tableAliasDot = ObjectUtils.isEmpty(blockRangeIndex.getTableAlias()) ? StrUtil.EMPTY : blockRangeIndex.getTableAlias() + StrUtil.DOT;
 
-        MysqlBlockRangeIndexProperties properties = SpringUtil.getBean(MysqlBlockRangeIndexProperties.class);
+        MysqlBlockRangeIndexProperties properties = BlockRangeIndexSpringUtil.getBean(MysqlBlockRangeIndexProperties.class);
         Map<String, Table> tableMap = properties.getTables().stream().collect(Collectors.toMap(Table::getName, Function.identity()));
         Table table = tableMap.get(blockRangeIndex.getTableName());
         Assert.notNull(table, blockRangeIndex.getTableName() + "table not mapping");
