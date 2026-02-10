@@ -16,6 +16,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,7 +64,7 @@ public class DateBlockRangeIndexJob {
         log.info("tableName {} minId {} ", tableName, minId);
         List<BasicEntity> tableDatas = getTableData(table, minId, autoIncrement);
         log.info("tableDatas: {}", tableDatas);
-        saveRedis(table, tableDataMonthGroup(tableDatas));
+        saveRedis(table, dataMonthGroup(tableDatas));
         prune(table);
     }
     /**
@@ -70,8 +72,22 @@ public class DateBlockRangeIndexJob {
      * @param table
      */
     private void prune(Table table) {
-        Map<Object, Object> entries = stringRedisTemplate.opsForHash().entries(Constant.MYSQL_BLOCK_RANGE_INDEX + table.getName());
+        String redisKey = Constant.MYSQL_BLOCK_RANGE_INDEX + table.getName();
+        Map<Object, Object> entries = stringRedisTemplate.opsForHash().entries(redisKey);
+        List<BasicEntity> result = entries.entrySet().stream().map(entry -> new BasicEntity(Integer.parseInt(entry.getValue().toString()),
+                LocalDateTime.parse(entry.getKey().toString(), DateTimeFormatter.ofPattern(DatePattern.PURE_DATETIME_PATTERN)))).collect(Collectors.toList());
+        Map<String, List<BasicEntity>> group = dataMonthGroup(result);
+        group.forEach((yearMonth, basicEntitys) -> {
+            // 最大值保留
+            BasicEntity maxBasicEntity = basicEntitys.stream().max(Comparator.comparingInt(BasicEntity::getId)).get();
+            for (BasicEntity basicEntity : basicEntitys) {
+                if (!maxBasicEntity.getId().equals(basicEntity.getId())) {
+                    log.info("delete {}", basicEntity);
+                    stringRedisTemplate.opsForHash().delete(redisKey, DateUtil.format(basicEntity.getCreateTime(), DatePattern.PURE_DATETIME_PATTERN));
+                }
+            }
 
+        });
 
     }
     public void saveRedis(Table table, Map<String, List<BasicEntity>> group) {
@@ -82,7 +98,7 @@ public class DateBlockRangeIndexJob {
         });
     }
 
-    private Map<String, List<BasicEntity>> tableDataMonthGroup(List<BasicEntity> tableDatas) {
+    private Map<String, List<BasicEntity>> dataMonthGroup(List<BasicEntity> tableDatas) {
         if (!CollectionUtils.isEmpty(tableDatas)) {
             // 数据按年月分组
             return tableDatas.stream().collect(Collectors.groupingBy(basicEntity -> DateUtil.format(basicEntity.getCreateTime(), "yyyy-MM")));
