@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
  * @author Zhou Zhongqing
  * @since 2/4/2026 9:33 PM
  */
@@ -24,16 +23,13 @@ import java.util.List;
 public class UserTask implements InitializingBean {
 
     private final Logger log = LoggerFactory.getLogger(UserTask.class);
-    private final List<Table> TABLES = Arrays.asList(new Table(User.class));
     @Autowired
     private DateBlockRangeIndexJob dateBlockRangeIndexJob;
 
-//    @Scheduled(fixedDelay = 1000)
+    //    @Scheduled(fixedDelay = 1000)
     public void task() {
         log.info("task");
-        for (Table table : TABLES) {
-            dateBlockRangeIndexJob.execute(table);
-        }
+        dateBlockRangeIndexJob.execute();
     }
 
     @Override

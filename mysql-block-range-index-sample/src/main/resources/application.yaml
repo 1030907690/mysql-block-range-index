@@ -40,3 +40,9 @@ logging:
 pagehelper:
   bound-sql-interceptors: com.zzq.mysqlblockrangeindex.interceptor.PageHelperBoundSqlInterceptor
 
+
+mysql-block-range-index:
+  tables:
+    - name: t_user
+      primary-key-auto-increment-column: id
+      create-time-column: create_time

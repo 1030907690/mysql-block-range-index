@@ -44,8 +44,8 @@ public class MysqlBlockRangeIndexAutoConfiguration implements InitializingBean {
     }
 
     @Bean
-    public DateBlockRangeIndexJob blockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate) {
-        return new DateBlockRangeIndexJob(jdbcTemplate, stringRedisTemplate);
+    public DateBlockRangeIndexJob blockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate,MysqlBlockRangeIndexProperties mysqlBlockRangeIndexProperties) {
+        return new DateBlockRangeIndexJob(jdbcTemplate, stringRedisTemplate,mysqlBlockRangeIndexProperties);
     }
 
     @Bean

@@ -24,14 +24,6 @@ public class Table {
         this.createTimeColumn = createTimeColumn;
     }
 
-    public Table(String name) {
-        this(name, Constant.DEFAULT_PRIMARY_KEY_AUTO_INCREMENT_COLUMN, Constant.DEFAULT_CREATE_TIME_COLUMN);
-    }
-
-    public Table(Class<?> entityClz) {
-        this(entityClz.getAnnotation(TableName.class).value(), Constant.DEFAULT_PRIMARY_KEY_AUTO_INCREMENT_COLUMN, Constant.DEFAULT_CREATE_TIME_COLUMN);
-    }
-
     /**
      * 表名
      */
@@ -39,12 +31,12 @@ public class Table {
     /**
      * 主键自增列
      */
-    private String primaryKeyAutoIncrementColumn;
+    private String primaryKeyAutoIncrementColumn = Constant.DEFAULT_PRIMARY_KEY_AUTO_INCREMENT_COLUMN;
 
     /**
      * 创建时间列
      */
-    private String createTimeColumn;
+    private String createTimeColumn = Constant.DEFAULT_CREATE_TIME_COLUMN;
 
 
     public String getName() {

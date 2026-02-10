@@ -4,11 +4,11 @@ package com.zzq.mysqlblockrangeindex.job;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.zzq.mysqlblockrangeindex.autoconfigure.MysqlBlockRangeIndexProperties;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
 import com.zzq.mysqlblockrangeindex.bean.CreateTableDDL;
 import com.zzq.mysqlblockrangeindex.bean.Table;
 import com.zzq.mysqlblockrangeindex.constant.Constant;
-import com.zzq.mysqlblockrangeindex.index.TableNameColumnMapping;
 import com.zzq.mysqlblockrangeindex.parser.CreateTableParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,17 +32,28 @@ public class DateBlockRangeIndexJob {
 
     private StringRedisTemplate stringRedisTemplate;
 
+    private MysqlBlockRangeIndexProperties mysqlBlockRangeIndexProperties;
 
     private final CreateTableParser createTableParser = new CreateTableParser();
 
 
-    public DateBlockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate) {
+    public DateBlockRangeIndexJob(JdbcTemplate jdbcTemplate, StringRedisTemplate stringRedisTemplate, MysqlBlockRangeIndexProperties mysqlBlockRangeIndexProperties) {
         this.jdbcTemplate = jdbcTemplate;
         this.stringRedisTemplate = stringRedisTemplate;
+        this.mysqlBlockRangeIndexProperties = mysqlBlockRangeIndexProperties;
     }
 
-    public void execute(Table table) {
-        TableNameColumnMapping.add(table.getName(), table);
+    public void execute() {
+        for (Table table : mysqlBlockRangeIndexProperties.getTables()) {
+            try {
+                doExecute(table);
+            } catch (Exception e) {
+                log.error("execute error", e);
+            }
+        }
+    }
+
+    public void doExecute(Table table) {
         String tableName = table.getName();
         Integer autoIncrement = getTableAutoIncrement(tableName);
         log.info("tableName: {}, autoIncrement: {}", tableName, autoIncrement);
