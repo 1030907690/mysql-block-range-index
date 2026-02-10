@@ -96,15 +96,16 @@ public class SelectParser {
         Table table = tableMap.get(blockRangeIndex.getTableName());
         Assert.notNull(table, blockRangeIndex.getTableName() + "table not mapping");
         String primaryKeyAutoIncrementColumn = table.getPrimaryKeyAutoIncrementColumn();
+        String aliasPkAutoIncColumn = tableAliasDot + primaryKeyAutoIncrementColumn;
         StringBuilder rangeWhere = new StringBuilder();
         if (range.getMinId() != null) {
-            rangeWhere.append(tableAliasDot + primaryKeyAutoIncrementColumn +" >= ").append(range.getMinId());
+            rangeWhere.append(aliasPkAutoIncColumn +" >= ").append(range.getMinId());
         }
         if (range.getMaxId() != null) {
             if (rangeWhere.length() > 0) {
-                rangeWhere.append(" and " + tableAliasDot + primaryKeyAutoIncrementColumn + " <= ").append(range.getMaxId());
+                rangeWhere.append(" and " + aliasPkAutoIncColumn + " <= ").append(range.getMaxId());
             } else {
-                rangeWhere.append(tableAliasDot + primaryKeyAutoIncrementColumn + " <= ").append(range.getMaxId());
+                rangeWhere.append(aliasPkAutoIncColumn + " <= ").append(range.getMaxId());
             }
         }
         return rangeWhere.toString();
