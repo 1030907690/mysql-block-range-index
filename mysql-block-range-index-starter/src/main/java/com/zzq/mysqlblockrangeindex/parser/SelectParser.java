@@ -120,10 +120,33 @@ public class SelectParser {
     private Range matchRange(List<BasicEntity> basicEntities, LocalDateTime startTime, LocalDateTime endTime) {
         Range range = new Range();
         if (!CollectionUtils.isEmpty(basicEntities)) {
+            chooseMinId(range, basicEntities, startTime);
+
+            chooseMaxId(range, basicEntities, endTime);
+
+        }
+        return range;
+    }
+
+    private void chooseMaxId(Range range, List<BasicEntity> basicEntities, LocalDateTime endTime) {
+        if (!ObjectUtils.isEmpty(endTime)){
+            for (BasicEntity basicEntity : basicEntities) {
+                //   结束时间是basicEntity.getCreateTime() 之前的时间 或者等于
+                if (endTime.isBefore(basicEntity.getCreateTime()) || endTime.isEqual(basicEntity.getCreateTime())) {
+                    range.setMaxId(basicEntity.getId());
+                    break;
+                }
+            }
+        }
+    }
+
+    private void chooseMinId(Range range, List<BasicEntity> basicEntities, LocalDateTime startTime) {
+
+        if (!ObjectUtils.isEmpty(startTime)) {
             for (int i = 0; i < basicEntities.size(); i++) {
                 BasicEntity basicEntity = basicEntities.get(i);
                 // 开始时间是basicEntity.getCreateTime() 之前的时间 或者等于
-                if (!ObjectUtils.isEmpty(startTime) && (startTime.isBefore(basicEntity.getCreateTime()) || startTime.isEqual(basicEntity.getCreateTime()))) {
+                if (startTime.isBefore(basicEntity.getCreateTime()) || startTime.isEqual(basicEntity.getCreateTime())) {
                     // 最终最小id前移一位
                     if (i > 0) {
                         BasicEntity prevBasicEntity = basicEntities.get(i - 1);
@@ -133,19 +156,10 @@ public class SelectParser {
                     }
                     break;
                 }
-
-            }
-
-
-            for (BasicEntity basicEntity : basicEntities) {
-                //   结束时间是basicEntity.getCreateTime() 之前的时间 或者等于
-                if (!ObjectUtils.isEmpty(endTime) && (endTime.isBefore(basicEntity.getCreateTime()) || endTime.isEqual(basicEntity.getCreateTime()))) {
-                    range.setMaxId(basicEntity.getId());
-                    break;
-                }
             }
         }
-        return range;
+
+
     }
 
 
