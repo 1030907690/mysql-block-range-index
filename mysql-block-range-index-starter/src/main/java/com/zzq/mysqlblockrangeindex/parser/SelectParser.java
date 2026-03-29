@@ -1,7 +1,6 @@
 package com.zzq.mysqlblockrangeindex.parser;
 
 
-import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.StrUtil;
 import com.zzq.mysqlblockrangeindex.autoconfigure.MysqlBlockRangeIndexProperties;
 import com.zzq.mysqlblockrangeindex.bean.BasicEntity;
@@ -89,7 +88,7 @@ public class SelectParser {
     }
 
     private String assemblyRangeWhere(Range range,BlockRangeIndex blockRangeIndex) {
-        String tableAliasDot = ObjectUtils.isEmpty(blockRangeIndex.getTableAlias()) ? StrUtil.EMPTY : blockRangeIndex.getTableAlias() + StrUtil.DOT;
+        String tableAliasDot = ObjectUtils.isEmpty(blockRangeIndex.getTableAlias()) ? Constant.EMPTY : blockRangeIndex.getTableAlias() + StrUtil.DOT;
 
         MysqlBlockRangeIndexProperties properties = BlockRangeIndexSpringUtil.getBean(MysqlBlockRangeIndexProperties.class);
         Map<String, Table> tableMap = properties.getTables().stream().collect(Collectors.toMap(Table::getName, Function.identity()));
@@ -153,7 +152,7 @@ public class SelectParser {
     private List<BasicEntity> convertBasicEntity(Map<Object, Object> entries) {
         if (!CollectionUtils.isEmpty(entries)) {
             List<BasicEntity> result = entries.entrySet().stream().map(entry -> new BasicEntity(Integer.parseInt(entry.getValue().toString()),
-                    LocalDateTime.parse(entry.getKey().toString(), DateTimeFormatter.ofPattern(DatePattern.PURE_DATETIME_PATTERN)))).collect(Collectors.toList());
+                    LocalDateTime.parse(entry.getKey().toString(), DateTimeFormatter.ofPattern(Constant.PURE_DATETIME_PATTERN)))).collect(Collectors.toList());
             // 按照自增主键排序,从小到大
             return result.stream().sorted(Comparator.comparingInt(BasicEntity::getId)).collect(Collectors.toList());
         }

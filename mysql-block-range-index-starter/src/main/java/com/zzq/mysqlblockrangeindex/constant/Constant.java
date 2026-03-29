@@ -13,4 +13,10 @@ public class Constant {
     public static final String DEFAULT_PRIMARY_KEY_AUTO_INCREMENT_COLUMN = "id";
 
     public static final String DEFAULT_CREATE_TIME_COLUMN = "create_time";
+
+
+
+    public static final String PURE_DATETIME_PATTERN = "yyyyMMddHHmmss";
+
+    public static final String EMPTY = "";
 }
