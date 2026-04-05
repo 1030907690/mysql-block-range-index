@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
@@ -59,10 +60,11 @@ public class DateBlockRangeIndexJob {
         String tableName = table.getName();
         Integer autoIncrement = getTableAutoIncrement(tableName);
         log.info("tableName: {}, autoIncrement: {}", tableName, autoIncrement);
+        Assert.notNull(autoIncrement, "autoIncrement must not be null");
 
         Integer minId = getLastSegmentId(tableName);
         log.info("tableName {} minId {} ", tableName, minId);
-        List<BasicEntity> tableDatas = getTableData(table, minId, autoIncrement);
+        List<BasicEntity> tableDatas = getTableData(table, minId);
         log.info("tableDatas: {}", tableDatas);
         saveRedis(table, dataMonthGroup(tableDatas));
         prune(table);
@@ -113,14 +115,13 @@ public class DateBlockRangeIndexJob {
         return CollectionUtils.isEmpty(result) ? 0 : Collections.max(result);
     }
 
-    private List<BasicEntity> getTableData(Table table, Integer minId, Integer maxId) {
+    private List<BasicEntity> getTableData(Table table, Integer minId) {
         String tableName = table.getName();
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT ");
         sql.append(table.getPrimaryKeyAutoIncrementColumn() + StrUtil.COMMA + table.getCreateTimeColumn());
         sql.append(" FROM " + tableName);
         sql.append(" WHERE " + table.getPrimaryKeyAutoIncrementColumn() + " >= " + minId);
-        sql.append(" and " + table.getPrimaryKeyAutoIncrementColumn() + " <= " + maxId);
         sql.append(" ORDER BY " + table.getPrimaryKeyAutoIncrementColumn());
         log.info("sql: {}", sql);
         return jdbcTemplate.query(sql.toString(), (rs, rowNum) -> new BasicEntity(rs.getInt(table.getPrimaryKeyAutoIncrementColumn()), rs.getTimestamp(table.getCreateTimeColumn()).toLocalDateTime()));
